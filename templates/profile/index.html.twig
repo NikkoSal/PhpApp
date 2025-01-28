@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+{% block title %}User Profile{% endblock %}
+{% block body %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 0;
+    }
+    .profile-container {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background: #ffffff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+    h1, h2 {
+        color: #333;
+        margin-bottom: 10px;
+    }
+    .portfolio {
+        border: 1px solid #ddd;
+        padding: 10px;
+        margin-bottom: 15px;
+        border-radius: 6px;
+        background: #f5f5f5;
+    }
+    .portfolio span {
+        font-weight: bold;
+        color: #444;
+    }
+    .stock {
+        margin-left: 15px;
+        font-size: 14px;
+        color: #555;
+    }
+    .total {
+        font-weight: bold;
+        font-size: 18px;
+        margin-top: 20px;
+    }
+</style>
+
+<div class="profile-container">
+    {% set total = 0 %}
+    <h1>User name: {{ user.username }} | User id: {{ user.id }}</h1>
+    <h1>All portfolios:</h1>
+    <h2>Number of portfolios: {{ user.portfolios|length }}</h2>
+    {% for portfolio in user.portfolios %}
+        <div class="portfolio">
+            <span>Portfolio {{ portfolio.id }} has {{ portfolio.balance }} money and has stocks:</span>
+            <br>
+            {% for depositary in portfolio.depositaries %}
+                {% set total = total + depositary.quantity %}
+                <div class="stock">Stock name: {{ depositary.stock.name }}, quantity: {{ depositary.quantity }}</div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+    <div class="total">Total quantity: {{ total }}</div>
+</div>
+{% endblock %}
